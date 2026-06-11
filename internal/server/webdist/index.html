@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>unlapse — everything that expires, in one place</title>
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-theme="dark">
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="brand">
+      <img src="icon.svg" alt="" class="brand-icon">
+      <div>
+        <div class="brand-name">unlapse</div>
+        <div class="brand-tag">nothing slips by</div>
+      </div>
+    </div>
+    <nav class="nav">
+      <a href="#/dashboard" class="nav-link" data-view="dashboard">
+        <svg viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+        Dashboard
+      </a>
+      <a href="#/items" class="nav-link" data-view="items">
+        <svg viewBox="0 0 24 24"><path d="M4 6h16v2H4V6zm0 5h16v2H4v-2zm0 5h16v2H4v-2z"/></svg>
+        All items
+      </a>
+    </nav>
+    <div class="sidebar-foot">
+      <button class="nav-link as-btn" id="btn-calendar">
+        <svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 16H5V10h14v10zM5 8V6h14v2H5z"/></svg>
+        Calendar feed
+      </button>
+      <button class="nav-link as-btn" id="btn-settings">
+        <svg viewBox="0 0 24 24"><path d="M19.14 12.94a7.07 7.07 0 0 0 0-1.88l2.03-1.58a.5.5 0 0 0 .12-.64l-1.92-3.32a.5.5 0 0 0-.61-.22l-2.39.96a7.05 7.05 0 0 0-1.63-.94l-.36-2.54a.5.5 0 0 0-.5-.42h-3.84a.5.5 0 0 0-.5.42l-.36 2.54c-.59.24-1.13.56-1.63.94l-2.39-.96a.5.5 0 0 0-.61.22L2.63 8.84a.5.5 0 0 0 .12.64l2.03 1.58a7.07 7.07 0 0 0 0 1.88l-2.03 1.58a.5.5 0 0 0-.12.64l1.92 3.32c.13.23.4.32.61.22l2.39-.96c.5.38 1.04.7 1.63.94l.36 2.54c.04.24.25.42.5.42h3.84c.25 0 .46-.18.5-.42l.36-2.54a7.05 7.05 0 0 0 1.63-.94l2.39.96c.21.1.48.01.61-.22l1.92-3.32a.5.5 0 0 0-.12-.64l-2.03-1.58zM12 15.5A3.5 3.5 0 1 1 12 8.5a3.5 3.5 0 0 1 0 7z"/></svg>
+        Settings
+      </button>
+      <div class="privacy-note">100% local · no account · no tracking</div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <!-- ============ DASHBOARD ============ -->
+    <section id="view-dashboard" class="view">
+      <header class="view-head">
+        <div>
+          <h1>Dashboard</h1>
+          <p class="subtitle" id="dash-subtitle"></p>
+        </div>
+        <button class="btn btn-primary" data-action="add">+ Add item</button>
+      </header>
+
+      <div class="stat-grid" id="stat-grid"></div>
+
+      <div class="dash-cols">
+        <div class="dash-col">
+          <div class="card">
+            <div class="card-head">
+              <h2>Needs attention</h2>
+              <span class="card-hint">overdue or inside its reminder window</span>
+            </div>
+            <div id="attention-list"></div>
+          </div>
+          <div class="card">
+            <div class="card-head">
+              <h2>Coming up</h2>
+              <span class="card-hint">next 90 days</span>
+            </div>
+            <div id="upcoming-list"></div>
+          </div>
+        </div>
+        <div class="dash-col dash-col-narrow">
+          <div class="card">
+            <div class="card-head"><h2>Monthly spend by category</h2></div>
+            <div id="category-bars"></div>
+          </div>
+          <div class="card">
+            <div class="card-head"><h2>Tracked by category</h2></div>
+            <div id="category-counts"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ ITEMS ============ -->
+    <section id="view-items" class="view" hidden>
+      <header class="view-head">
+        <div>
+          <h1>All items</h1>
+          <p class="subtitle" id="items-subtitle"></p>
+        </div>
+        <button class="btn btn-primary" data-action="add">+ Add item</button>
+      </header>
+
+      <div class="toolbar">
+        <input type="search" id="search" class="input" placeholder="Search items…" autocomplete="off">
+        <div class="chips" id="category-chips"></div>
+        <label class="toggle">
+          <input type="checkbox" id="show-archived"> archived
+        </label>
+      </div>
+
+      <div id="items-list"></div>
+    </section>
+
+    <!-- ============ EMPTY STATE ============ -->
+    <section id="view-empty" class="view empty-state" hidden>
+      <img src="icon.svg" alt="" class="empty-icon">
+      <h1>Nothing tracked yet</h1>
+      <p>Add the things in your life that expire or renew — subscriptions, warranties,<br>
+         insurance, documents — and unlapse will warn you before they bite.</p>
+      <div class="empty-actions">
+        <button class="btn btn-primary" data-action="add">+ Add your first item</button>
+        <button class="btn" id="btn-sample">Load sample data</button>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- ============ ITEM MODAL ============ -->
+<dialog id="item-modal" class="modal">
+  <form id="item-form" method="dialog">
+    <h2 id="item-modal-title">Add item</h2>
+    <div class="form-grid">
+      <label class="field span-2">
+        <span>Name</span>
+        <input class="input" name="name" required maxlength="200" placeholder="e.g. Car insurance">
+      </label>
+      <label class="field">
+        <span>Category</span>
+        <select class="input" name="category" id="f-category"></select>
+      </label>
+      <label class="field">
+        <span>Next date</span>
+        <input class="input" type="date" name="date" required>
+      </label>
+      <label class="field">
+        <span>Repeats</span>
+        <select class="input" name="cycle" id="f-cycle">
+          <option value="none">never (one-time expiry)</option>
+          <option value="weekly">weekly</option>
+          <option value="monthly">monthly</option>
+          <option value="quarterly">quarterly</option>
+          <option value="yearly">yearly</option>
+          <option value="custom">every N days…</option>
+        </select>
+      </label>
+      <label class="field" id="f-cycledays-wrap" hidden>
+        <span>Every (days)</span>
+        <input class="input" type="number" name="cycleDays" min="1" max="3650" value="30">
+      </label>
+      <label class="field">
+        <span>Cost per cycle <em id="f-currency"></em></span>
+        <input class="input" type="number" name="cost" min="0" step="0.01" value="0">
+      </label>
+      <label class="field">
+        <span>Remind me (days before)</span>
+        <input class="input" type="number" name="remindDays" min="0" max="365">
+      </label>
+      <label class="field span-2">
+        <span>Link <em>(optional)</em></span>
+        <input class="input" type="url" name="url" placeholder="https://…">
+      </label>
+      <label class="field span-2">
+        <span>Notes <em>(optional)</em></span>
+        <textarea class="input" name="notes" rows="2" placeholder="cancel before renewal? claim warranty? leave yourself a note"></textarea>
+      </label>
+    </div>
+    <div class="modal-actions">
+      <button type="button" class="btn" data-close>Cancel</button>
+      <button type="submit" class="btn btn-primary" id="item-save">Save</button>
+    </div>
+  </form>
+</dialog>
+
+<!-- ============ SETTINGS MODAL ============ -->
+<dialog id="settings-modal" class="modal">
+  <form id="settings-form" method="dialog">
+    <h2>Settings</h2>
+    <div class="form-grid">
+      <label class="field">
+        <span>Currency symbol</span>
+        <input class="input" name="currency" maxlength="8" required>
+      </label>
+      <label class="field">
+        <span>Default reminder (days)</span>
+        <input class="input" type="number" name="defaultRemindDays" min="0" max="365" required>
+      </label>
+      <label class="field">
+        <span>Theme</span>
+        <select class="input" name="theme">
+          <option value="dark">dark</option>
+          <option value="light">light</option>
+        </select>
+      </label>
+    </div>
+    <h3>Your data</h3>
+    <div class="data-actions">
+      <a class="btn" href="api/export.csv" download>Export CSV</a>
+      <button type="button" class="btn" id="btn-import">Import CSV</button>
+      <input type="file" id="import-file" accept=".csv,text/csv" hidden>
+    </div>
+    <p class="fineprint">Everything lives in a single JSON file on this machine. No cloud, no account, no telemetry.</p>
+    <div class="modal-actions">
+      <button type="button" class="btn" data-close>Cancel</button>
+      <button type="submit" class="btn btn-primary">Save</button>
+    </div>
+  </form>
+</dialog>
+
+<!-- ============ CALENDAR MODAL ============ -->
+<dialog id="calendar-modal" class="modal">
+  <div>
+    <h2>Calendar feed</h2>
+    <p>Subscribe to this URL from Google Calendar, Apple Calendar, Outlook or Thunderbird and
+       every renewal shows up with a reminder at your chosen lead time — no extra app needed.</p>
+    <div class="copy-row">
+      <input class="input" id="ics-url" readonly>
+      <button class="btn btn-primary" id="btn-copy-ics">Copy</button>
+    </div>
+    <p class="fineprint">The feed is served live from this machine, so your calendar app must be able to reach it.</p>
+    <div class="modal-actions">
+      <button type="button" class="btn" data-close>Close</button>
+    </div>
+  </div>
+</dialog>
+
+<div id="toast" class="toast" hidden></div>
+
+<script src="app.js"></script>
+</body>
+</html>

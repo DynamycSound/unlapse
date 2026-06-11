@@ -1,0 +1,13 @@
+# build artifacts
+/dist/
+unlapse
+unlapse.exe
+
+# local data — never commit user data
+unlapse-data.json
+*.tmp
+
+# editors / OS
+.DS_Store
+.idea/
+.vscode/
