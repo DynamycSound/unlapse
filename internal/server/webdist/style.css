@@ -35,10 +35,20 @@ body[data-theme="light"] {
   --border: #dde3ef;
   --text: #1a2030;
   --text-dim: #5d6578;
+  --red: #dc2626;
+  --red-soft: rgba(220, 38, 38, 0.10);
+  --amber: #b45309;
+  --amber-soft: rgba(180, 83, 9, 0.12);
+  --blue: #2563eb;
+  --blue-soft: rgba(37, 99, 235, 0.10);
+  --green: #15803d;
+  --green-soft: rgba(21, 128, 61, 0.10);
   --shadow: 0 8px 30px rgba(20, 30, 60, 0.10);
 }
 
 * { box-sizing: border-box; }
+
+[hidden] { display: none !important; }
 
 body {
   margin: 0;
@@ -133,7 +143,7 @@ body {
 }
 .btn:hover { background: var(--bg-hover); }
 .btn-primary { background: var(--accent); border-color: var(--accent); color: #1a1206; }
-.btn-primary:hover { background: var(--amber); }
+.btn-primary:hover { background: var(--accent); filter: brightness(1.1); }
 .btn-danger { color: var(--red); }
 
 .input {
